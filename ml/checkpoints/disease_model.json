@@ -1,0 +1,14 @@
+{
+  "classes": [
+    "corn_common_rust",
+    "corn_healthy",
+    "potato_early_blight",
+    "potato_healthy",
+    "potato_late_blight",
+    "tomato_early_blight",
+    "tomato_healthy",
+    "tomato_late_blight",
+    "tomato_leaf_mold"
+  ],
+  "best_val_acc": 0.7333333333333333
+}

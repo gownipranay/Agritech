@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# ML artifacts
+ml/checkpoints/*.pt
+ml/checkpoints/*.pth
+ml/data/plantvillage/
+ml/data/raw/
+*.onnx
+
+# Synthetic smoke-test images (regenerate with make_sample_dataset.py) and
+# real datasets once downloaded — large/generated, not source
+data/sample_images/
+data/plantvillage/
+data/raw/
+
+# Claude Code session-local state
+.claude/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.netlify/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+backend/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
