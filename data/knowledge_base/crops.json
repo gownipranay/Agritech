@@ -1,0 +1,88 @@
+{
+  "_note": "Crop catalogue for the AgriAI advisory UI. 'vision_supported' means the trained CV model can classify photos of this crop directly. 'vision_proxy' means we route photos to a closely-related trained crop (chilli -> bell pepper, same genus Capsicum) with a visible caveat. 'advisory_only' crops have no trained detector yet, so the app offers symptom-based guidance from the knowledge base only. Every disease entry keys into treatments.json.",
+  "crops": [
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "local_names": ["Tamatar", "టమాటా"],
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "Tomato",
+      "common_diseases": [
+        "Tomato_Bacterial_spot",
+        "Tomato_Early_blight",
+        "Tomato_Late_blight",
+        "Tomato_Leaf_Mold",
+        "Tomato_Septoria_leaf_spot",
+        "Tomato_Spider_mites_Two_spotted_spider_mite",
+        "Tomato__Target_Spot",
+        "Tomato__Tomato_YellowLeaf__Curl_Virus",
+        "Tomato__Tomato_mosaic_virus"
+      ]
+    },
+    {
+      "id": "potato",
+      "name": "Potato",
+      "local_names": ["Aloo", "బంగాళాదుంప"],
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "Potato",
+      "common_diseases": ["Potato___Early_blight", "Potato___Late_blight"]
+    },
+    {
+      "id": "bell_pepper",
+      "name": "Bell Pepper / Capsicum",
+      "local_names": ["Shimla Mirch"],
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "Pepper",
+      "common_diseases": ["Pepper__bell___Bacterial_spot"]
+    },
+    {
+      "id": "chilli",
+      "name": "Chilli",
+      "local_names": ["Mirchi", "మిర్చి"],
+      "vision_support": "vision_proxy",
+      "vision_proxy_of": "bell_pepper",
+      "vision_proxy_note": "Chilli and bell pepper are the same genus (Capsicum). Leaf-spot detection transfers reasonably, but confirm chilli-specific problems (thrips, leaf curl, dieback) with a local expert.",
+      "common_diseases": [
+        "Pepper__bell___Bacterial_spot",
+        "chilli_anthracnose",
+        "chilli_leaf_curl_virus",
+        "chilli_powdery_mildew"
+      ]
+    },
+    {
+      "id": "corn",
+      "name": "Corn / Maize",
+      "local_names": ["Makka", "మొక్కజొన్న"],
+      "vision_support": "advisory_only",
+      "common_diseases": ["corn_common_rust", "corn_northern_leaf_blight", "corn_gray_leaf_spot"]
+    },
+    {
+      "id": "paddy",
+      "name": "Paddy / Rice",
+      "local_names": ["Dhan", "వరి"],
+      "vision_support": "advisory_only",
+      "common_diseases": ["paddy_blast", "paddy_bacterial_leaf_blight", "paddy_brown_spot", "paddy_sheath_blight"]
+    },
+    {
+      "id": "toor_dal",
+      "name": "Toor Dal / Pigeon Pea",
+      "local_names": ["Arhar", "Tur", "కంది"],
+      "vision_support": "advisory_only",
+      "common_diseases": ["toor_fusarium_wilt", "toor_sterility_mosaic", "toor_phytophthora_blight"]
+    },
+    {
+      "id": "groundnut",
+      "name": "Groundnut / Peanut",
+      "local_names": ["Moongphali", "వేరుశనగ"],
+      "vision_support": "advisory_only",
+      "common_diseases": ["groundnut_tikka_leaf_spot", "groundnut_rust", "groundnut_bud_necrosis"]
+    },
+    {
+      "id": "cotton",
+      "name": "Cotton",
+      "local_names": ["Kapas", "పత్తి"],
+      "vision_support": "advisory_only",
+      "common_diseases": ["cotton_bacterial_blight", "cotton_leaf_curl_virus", "cotton_alternaria_leaf_spot", "cotton_root_rot"]
+    }
+  ]
+}

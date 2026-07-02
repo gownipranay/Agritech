@@ -1,0 +1,15 @@
+# Netlify build config for the AgriAI React frontend.
+# In the Netlify UI set base directory to "frontend" (or deploy from repo root
+# with this file present). Set the environment variable VITE_API_BASE to your
+# deployed backend URL (e.g. https://agriai-backend.onrender.com).
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+# SPA fallback so client-side routes resolve to index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

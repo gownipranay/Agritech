@@ -7,27 +7,31 @@ farmer by an LLM.
 
 ## Current status
 
-This repo is mid-build, following the phased order below. **Phase 1 is
-implemented as a smoke-tested pipeline** (see caveat); Phases 2–5 are
-scaffolded/stubbed with clear `501 Not Implemented` responses and are not
-yet built.
-
 | Phase | Status |
 |---|---|
-| 1. Disease/pest detection | Pipeline implemented; trained only on synthetic smoke-test data so far (see below) |
+| 1. Disease/pest detection | **Trained on real PlantVillage data** (15 classes: pepper, potato, tomato) |
 | 2. Soil & weather integration | Not started |
 | 3. Yield prediction | Not started |
-| 4. Grounded treatment recommendation | Not started |
-| 5. Farmer-facing UI | Not started (deferred until API contracts stabilize) |
+| 4. Grounded treatment recommendation | **Implemented** — curated, ICAR-cited lookup (`/recommend-treatment`, `/crops`) |
+| 5. Farmer-facing UI | **Implemented** — React (Vite) app in `frontend/`, deployable to Netlify |
 
-**Important caveat on Phase 1:** there was no Kaggle-authenticated access to
-the real PlantVillage dataset in this environment, so the checkpoint
-currently in `ml/checkpoints/` (if present) was trained on procedurally
-generated placeholder leaf images (`ml/disease_classification/make_sample_dataset.py`),
-purely to prove the training/eval/inference code path works end to end.
-**Its accuracy numbers are not a real disease-detection benchmark.** See
-[model_card.md](model_card.md) and [data/sources.md](data/sources.md) for
-what real training requires.
+### Crop coverage vs. what the vision model can actually detect
+
+The real PlantVillage mirror only contains **pepper, potato, and tomato**, so
+those are the only crops the CV model can diagnose from a photo. The app
+still supports the other requested crops (chilli, corn/maize, paddy/rice,
+toor dal, groundnut, cotton) — honestly labelled by capability:
+
+| Crop | How it works in the app |
+|---|---|
+| Tomato, Potato, Bell pepper | Photo → trained CV model diagnosis |
+| Chilli | Photo → routed to the bell-pepper model (same genus *Capsicum*), with a visible caveat |
+| Corn, Paddy, Toor dal, Groundnut, Cotton | **Advisory only** — no trained detector yet, so the app shows the crop's common diseases + grounded management from the knowledge base instead of guessing from a photo |
+
+Adding real photo-detection for the advisory-only crops requires labelled
+datasets for them (e.g. the rice-leaf-disease, maize, cotton-disease Kaggle
+sets); the training pipeline already generalizes to any `ImageFolder`, so it's
+a data problem, not a code one. See [data/sources.md](data/sources.md).
 
 ## Architecture
 

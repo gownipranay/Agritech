@@ -8,6 +8,7 @@ REPO_ROOT = BACKEND_DIR.parent
 
 class Settings(BaseSettings):
     disease_model_checkpoint: str = str(REPO_ROOT / "ml" / "checkpoints" / "disease_model.pt")
+    knowledge_base_dir: str = str(REPO_ROOT / "data" / "knowledge_base")
     cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
 
     # Phase 4/5 — not wired up yet, kept here so env config is centralized.

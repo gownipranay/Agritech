@@ -1,0 +1,262 @@
+{
+  "_note": "Grounded disease -> management lookup. Active ingredients and cultural controls are drawn from ICAR / State Agricultural University extension advisories and Krishi Vigyan Kendra guides. Dosages are indicative ranges only; the label on the purchased product and local KVK advice always override this table. This file is the deterministic source of truth the LLM summarizer is allowed to read from — it must never invent an entry not present here.",
+  "_disclaimer": "Confirm with your local Krishi Vigyan Kendra (KVK) or agri-input dealer before applying any chemical. Follow the product label for exact dosage, pre-harvest interval, and safety precautions.",
+  "treatments": {
+    "Pepper__bell___Bacterial_spot": {
+      "label": "Bacterial spot",
+      "type": "bacterial",
+      "active_ingredients": ["Copper oxychloride 50% WP", "Streptomycin sulphate + Tetracycline"],
+      "indicative_dosage": "Copper oxychloride 3 g/L water; add streptocycline 0.5 g/L as needed",
+      "cultural_controls": ["Use certified disease-free seed", "Avoid overhead irrigation", "Remove and destroy infected debris", "2-3 year crop rotation"],
+      "source": "ICAR-IIHR / TNAU Crop Protection advisory"
+    },
+    "Potato___Early_blight": {
+      "label": "Early blight",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Chlorothalonil 75% WP"],
+      "indicative_dosage": "Mancozeb 2-2.5 g/L water, spray at 10-12 day intervals",
+      "cultural_controls": ["Balanced nitrogen, avoid stress", "Remove volunteer plants and debris", "Adequate plant spacing for airflow"],
+      "source": "ICAR-CPRI Shimla advisory"
+    },
+    "Potato___Late_blight": {
+      "label": "Late blight",
+      "type": "fungal (oomycete)",
+      "active_ingredients": ["Mancozeb 75% WP (protectant)", "Cymoxanil + Mancozeb", "Metalaxyl + Mancozeb (curative)"],
+      "indicative_dosage": "Metalaxyl+Mancozeb 2.5 g/L at first appearance; rotate with contact fungicide",
+      "cultural_controls": ["Plant tolerant varieties", "Earthing up to protect tubers", "Destroy cull piles", "Spray preventively in cool humid weather"],
+      "source": "ICAR-CPRI Shimla late blight advisory"
+    },
+    "Tomato_Bacterial_spot": {
+      "label": "Bacterial spot",
+      "type": "bacterial",
+      "active_ingredients": ["Copper oxychloride 50% WP", "Streptomycin sulphate"],
+      "indicative_dosage": "Copper oxychloride 3 g/L; streptocycline 0.5 g/L",
+      "cultural_controls": ["Disease-free seed/seedlings", "Avoid working in wet fields", "Rotate away from solanaceous crops"],
+      "source": "TNAU Agritech tomato disease guide"
+    },
+    "Tomato_Early_blight": {
+      "label": "Early blight",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Chlorothalonil 75% WP"],
+      "indicative_dosage": "Mancozeb 2.5 g/L at 10-12 day intervals",
+      "cultural_controls": ["Staking for airflow", "Mulching to reduce soil splash", "Remove lower infected leaves"],
+      "source": "TNAU Agritech tomato disease guide"
+    },
+    "Tomato_Late_blight": {
+      "label": "Late blight",
+      "type": "fungal (oomycete)",
+      "active_ingredients": ["Cymoxanil + Mancozeb", "Metalaxyl + Mancozeb"],
+      "indicative_dosage": "2.5 g/L at first symptoms in cool humid weather",
+      "cultural_controls": ["Resistant varieties", "Avoid overhead irrigation", "Destroy infected plants promptly"],
+      "source": "ICAR tomato late blight advisory"
+    },
+    "Tomato_Leaf_Mold": {
+      "label": "Leaf mold",
+      "type": "fungal",
+      "active_ingredients": ["Chlorothalonil 75% WP", "Mancozeb 75% WP"],
+      "indicative_dosage": "2-2.5 g/L, focus on lower leaf surface",
+      "cultural_controls": ["Improve ventilation (esp. polyhouse)", "Reduce humidity", "Resistant cultivars"],
+      "source": "TNAU polyhouse tomato advisory"
+    },
+    "Tomato_Septoria_leaf_spot": {
+      "label": "Septoria leaf spot",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Chlorothalonil 75% WP"],
+      "indicative_dosage": "2.5 g/L at 10 day intervals",
+      "cultural_controls": ["Remove infected lower leaves", "Mulch", "Crop rotation, sanitation"],
+      "source": "TNAU Agritech tomato disease guide"
+    },
+    "Tomato_Spider_mites_Two_spotted_spider_mite": {
+      "label": "Two-spotted spider mite",
+      "type": "mite (pest)",
+      "active_ingredients": ["Dicofol 18.5% EC", "Spiromesifen 22.9% SC", "Wettable sulphur"],
+      "indicative_dosage": "Spiromesifen 1 mL/L; sulphur 2-3 g/L (not in hot weather)",
+      "cultural_controls": ["Spray undersides of leaves", "Encourage predatory mites", "Avoid dusty water-stressed conditions"],
+      "source": "ICAR-NCIPM mite management advisory"
+    },
+    "Tomato__Target_Spot": {
+      "label": "Target spot",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Azoxystrobin 23% SC"],
+      "indicative_dosage": "Azoxystrobin 1 mL/L; rotate MoA to avoid resistance",
+      "cultural_controls": ["Sanitation of debris", "Airflow", "Avoid prolonged leaf wetness"],
+      "source": "University extension tomato disease guide"
+    },
+    "Tomato__Tomato_YellowLeaf__Curl_Virus": {
+      "label": "Tomato yellow leaf curl virus (TYLCV)",
+      "type": "viral (whitefly-transmitted)",
+      "active_ingredients": ["No chemical cures the virus. Manage whitefly vector: Imidacloprid 17.8% SL or Diafenthiuron 50% WP"],
+      "indicative_dosage": "Imidacloprid 0.3 mL/L for whitefly; rogue infected plants",
+      "cultural_controls": ["Resistant varieties", "Yellow sticky traps", "Remove and destroy infected plants", "Nursery under insect-proof net"],
+      "source": "ICAR-IIHR TYLCV management advisory"
+    },
+    "Tomato__Tomato_mosaic_virus": {
+      "label": "Tomato mosaic virus (ToMV)",
+      "type": "viral (mechanically transmitted)",
+      "active_ingredients": ["No chemical cure. Sanitation-based management."],
+      "indicative_dosage": "N/A — remove infected plants",
+      "cultural_controls": ["Disinfect tools and hands (milk/skim-milk dip)", "Resistant varieties", "Avoid tobacco use near plants", "Rogue infected plants"],
+      "source": "TNAU tomato virus advisory"
+    },
+    "chilli_anthracnose": {
+      "label": "Chilli anthracnose / fruit rot (die-back)",
+      "type": "fungal",
+      "active_ingredients": ["Azoxystrobin 23% SC", "Difenoconazole 25% EC", "Mancozeb 75% WP"],
+      "indicative_dosage": "Difenoconazole 0.5 mL/L or Mancozeb 2.5 g/L at flowering/fruiting",
+      "cultural_controls": ["Disease-free seed, seed treatment", "Remove infected fruits", "Avoid dense planting"],
+      "source": "TNAU / ICAR-IIHR chilli anthracnose advisory"
+    },
+    "chilli_leaf_curl_virus": {
+      "label": "Chilli leaf curl (viral complex, thrips/whitefly/mite-transmitted)",
+      "type": "viral",
+      "active_ingredients": ["Manage vectors: Fipronil 5% SC (thrips), Imidacloprid 17.8% SL (whitefly), Spiromesifen (mite)"],
+      "indicative_dosage": "Rotate insecticides; rogue severely infected plants",
+      "cultural_controls": ["Insect-proof nursery", "Yellow/blue sticky traps", "Border crop of maize/sorghum", "Resistant varieties"],
+      "source": "ICAR-NCIPM chilli leaf curl advisory"
+    },
+    "chilli_powdery_mildew": {
+      "label": "Chilli powdery mildew",
+      "type": "fungal",
+      "active_ingredients": ["Wettable sulphur 80% WP", "Dinocap 48% EC", "Azoxystrobin 23% SC"],
+      "indicative_dosage": "Wettable sulphur 2-3 g/L; avoid sulphur in high heat",
+      "cultural_controls": ["Airflow", "Avoid excess nitrogen", "Early detection on leaf undersides"],
+      "source": "TNAU chilli disease guide"
+    },
+    "corn_common_rust": {
+      "label": "Common rust of maize",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Propiconazole 25% EC", "Azoxystrobin 23% SC"],
+      "indicative_dosage": "Propiconazole 1 mL/L at first pustules",
+      "cultural_controls": ["Resistant hybrids", "Balanced nutrition", "Timely sowing"],
+      "source": "ICAR-IIMR maize disease advisory"
+    },
+    "corn_northern_leaf_blight": {
+      "label": "Northern (turcicum) leaf blight of maize",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Propiconazole 25% EC"],
+      "indicative_dosage": "Mancozeb 2.5 g/L or Propiconazole 1 mL/L, 2-3 sprays",
+      "cultural_controls": ["Resistant hybrids", "Crop rotation", "Destroy infected stubble"],
+      "source": "ICAR-IIMR maize disease advisory"
+    },
+    "corn_gray_leaf_spot": {
+      "label": "Gray leaf spot of maize",
+      "type": "fungal",
+      "active_ingredients": ["Azoxystrobin 23% SC", "Pyraclostrobin"],
+      "indicative_dosage": "Azoxystrobin 1 mL/L at early disease onset",
+      "cultural_controls": ["Residue management (tillage)", "Rotation", "Resistant hybrids"],
+      "source": "University extension maize disease guide"
+    },
+    "paddy_blast": {
+      "label": "Rice blast",
+      "type": "fungal",
+      "active_ingredients": ["Tricyclazole 75% WP", "Isoprothiolane 40% EC", "Azoxystrobin 23% SC"],
+      "indicative_dosage": "Tricyclazole 0.6 g/L at boot-leaf and heading",
+      "cultural_controls": ["Avoid excess nitrogen", "Resistant varieties", "Balanced split N application", "Proper spacing"],
+      "source": "ICAR-IIRR / TNAU rice blast advisory"
+    },
+    "paddy_bacterial_leaf_blight": {
+      "label": "Bacterial leaf blight (BLB)",
+      "type": "bacterial",
+      "active_ingredients": ["Copper oxychloride 50% WP + Streptocycline", "Copper hydroxide"],
+      "indicative_dosage": "Copper oxychloride 2.5 g/L + streptocycline 0.15 g/L",
+      "cultural_controls": ["Resistant varieties", "Avoid excess nitrogen", "Drain field, avoid flooding after infection", "Balanced potash"],
+      "source": "ICAR-IIRR rice BLB advisory"
+    },
+    "paddy_brown_spot": {
+      "label": "Brown spot of rice",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Propiconazole 25% EC"],
+      "indicative_dosage": "Mancozeb 2.5 g/L; correct nutrient deficiency",
+      "cultural_controls": ["Correct potassium/nutrient deficiency", "Seed treatment", "Balanced fertilization"],
+      "source": "TNAU rice disease guide"
+    },
+    "paddy_sheath_blight": {
+      "label": "Sheath blight of rice",
+      "type": "fungal",
+      "active_ingredients": ["Validamycin 3% L", "Hexaconazole 5% EC", "Propiconazole 25% EC"],
+      "indicative_dosage": "Hexaconazole 2 mL/L directed to plant base/sheath",
+      "cultural_controls": ["Avoid dense planting and excess N", "Remove infected debris", "Alternate wetting and drying"],
+      "source": "ICAR-IIRR sheath blight advisory"
+    },
+    "toor_fusarium_wilt": {
+      "label": "Fusarium wilt of pigeon pea",
+      "type": "fungal (soil-borne)",
+      "active_ingredients": ["Seed treatment: Trichoderma viride / Carbendazim 50% WP", "Soil: Trichoderma-enriched FYM"],
+      "indicative_dosage": "Seed treat Carbendazim 2 g/kg seed or Trichoderma 4 g/kg",
+      "cultural_controls": ["Wilt-resistant varieties (e.g. Maruti/ICP lines)", "Long rotation with non-host", "Mixed cropping with sorghum"],
+      "source": "ICAR-IIPR pigeon pea wilt advisory"
+    },
+    "toor_sterility_mosaic": {
+      "label": "Sterility mosaic disease (SMD)",
+      "type": "viral (eriophyid mite-transmitted)",
+      "active_ingredients": ["Manage mite vector: Dicofol 18.5% EC or wettable sulphur"],
+      "indicative_dosage": "Rogue infected 'bushy green' plants; control mite vector early",
+      "cultural_controls": ["Resistant varieties", "Rogue infected plants", "Avoid ratooning/self-sown volunteers"],
+      "source": "ICAR-IIPR SMD advisory"
+    },
+    "toor_phytophthora_blight": {
+      "label": "Phytophthora stem blight of pigeon pea",
+      "type": "fungal (oomycete)",
+      "active_ingredients": ["Metalaxyl + Mancozeb", "Seed treatment Metalaxyl"],
+      "indicative_dosage": "Metalaxyl+Mancozeb 2.5 g/L; ensure drainage",
+      "cultural_controls": ["Raised beds / good drainage", "Resistant lines", "Avoid waterlogging"],
+      "source": "ICAR-IIPR pigeon pea disease advisory"
+    },
+    "groundnut_tikka_leaf_spot": {
+      "label": "Tikka (early & late) leaf spot of groundnut",
+      "type": "fungal",
+      "active_ingredients": ["Chlorothalonil 75% WP", "Mancozeb 75% WP", "Tebuconazole 25.9% EC"],
+      "indicative_dosage": "Chlorothalonil 2 g/L or Tebuconazole 1 mL/L, 2-3 sprays from 30 DAS",
+      "cultural_controls": ["Crop rotation", "Deep ploughing of residue", "Resistant varieties", "Timely sowing"],
+      "source": "ICAR-DGR groundnut leaf spot advisory"
+    },
+    "groundnut_rust": {
+      "label": "Groundnut rust",
+      "type": "fungal",
+      "active_ingredients": ["Wettable sulphur 80% WP", "Tebuconazole 25.9% EC", "Mancozeb 75% WP"],
+      "indicative_dosage": "Sulphur 3 g/L or Tebuconazole 1 mL/L; often tank-mixed with leaf spot spray",
+      "cultural_controls": ["Resistant varieties", "Rogue volunteer plants", "Avoid late sowing"],
+      "source": "ICAR-DGR groundnut rust advisory"
+    },
+    "groundnut_bud_necrosis": {
+      "label": "Groundnut bud necrosis disease (GBND)",
+      "type": "viral (thrips-transmitted tospovirus)",
+      "active_ingredients": ["Manage thrips vector: Imidacloprid 17.8% SL / Fipronil 5% SC"],
+      "indicative_dosage": "Seed treat Imidacloprid; early thrips control critical",
+      "cultural_controls": ["Early/timely sowing, high plant density", "Border crop of cereals", "Rogue infected plants", "Resistant varieties"],
+      "source": "ICAR-DGR GBND advisory"
+    },
+    "cotton_bacterial_blight": {
+      "label": "Bacterial blight (angular leaf spot) of cotton",
+      "type": "bacterial",
+      "active_ingredients": ["Copper oxychloride 50% WP + Streptocycline"],
+      "indicative_dosage": "Copper oxychloride 2.5 g/L + streptocycline 0.1 g/L",
+      "cultural_controls": ["Acid-delinted, disease-free seed", "Resistant varieties", "Remove/destroy crop residue", "Balanced fertilization"],
+      "source": "ICAR-CICR cotton disease advisory"
+    },
+    "cotton_leaf_curl_virus": {
+      "label": "Cotton leaf curl virus (CLCuV)",
+      "type": "viral (whitefly-transmitted)",
+      "active_ingredients": ["Manage whitefly: Diafenthiuron 50% WP / Flonicamid 50% WG"],
+      "indicative_dosage": "Rotate insecticides for whitefly; rogue infected plants early",
+      "cultural_controls": ["Resistant/tolerant hybrids", "Yellow sticky traps", "Avoid alternate hosts near field", "Timely sowing"],
+      "source": "ICAR-CICR CLCuV advisory"
+    },
+    "cotton_alternaria_leaf_spot": {
+      "label": "Alternaria leaf spot of cotton",
+      "type": "fungal",
+      "active_ingredients": ["Mancozeb 75% WP", "Copper oxychloride 50% WP"],
+      "indicative_dosage": "Mancozeb 2.5 g/L at first symptoms",
+      "cultural_controls": ["Balanced potash", "Remove infected debris", "Avoid moisture stress"],
+      "source": "ICAR-CICR cotton disease advisory"
+    },
+    "cotton_root_rot": {
+      "label": "Root rot of cotton",
+      "type": "fungal (soil-borne)",
+      "active_ingredients": ["Seed treatment: Carbendazim 50% WP / Trichoderma viride", "Soil drench Carbendazim in patches"],
+      "indicative_dosage": "Seed treat Carbendazim 2 g/kg; spot drench 1 g/L",
+      "cultural_controls": ["Deep summer ploughing", "Crop rotation", "FYM with Trichoderma", "Avoid water stress"],
+      "source": "ICAR-CICR cotton root rot advisory"
+    }
+  }
+}

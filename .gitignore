@@ -5,9 +5,11 @@ __pycache__/
 venv/
 *.egg-info/
 
-# ML artifacts
+# ML artifacts — ignore checkpoints by default, but commit the shipped one so
+# the deployed backend can serve predictions without retraining.
 ml/checkpoints/*.pt
 ml/checkpoints/*.pth
+!ml/checkpoints/disease_model.pt
 ml/data/plantvillage/
 ml/data/raw/
 *.onnx
@@ -16,6 +18,7 @@ ml/data/raw/
 # real datasets once downloaded — large/generated, not source
 data/sample_images/
 data/plantvillage/
+data/plantvillage_raw/
 data/raw/
 
 # Claude Code session-local state

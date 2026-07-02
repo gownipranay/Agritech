@@ -1,0 +1,20 @@
+# Render Blueprint for the AgriAI FastAPI + PyTorch backend (free tier).
+# Netlify cannot host this service (PyTorch + long-lived server), so the
+# backend goes to Render and the Netlify frontend points VITE_API_BASE at it.
+#
+# Deploy: push to GitHub, then in Render click "New +" -> "Blueprint" and
+# select this repo. Render reads this file.
+services:
+  - type: web
+    name: agriai-backend
+    runtime: python
+    plan: free
+    rootDir: .
+    # Install the CPU-only torch wheel (the default Linux wheel bundles CUDA
+    # and is too large for the free tier), then the rest.
+    buildCommand: pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --app-dir backend
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"

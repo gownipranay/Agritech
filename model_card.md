@@ -1,101 +1,89 @@
 # Model Card — AgriAI Disease Classifier (Phase 1)
 
-**Status: smoke-test model. Not fit for real-world use.**
+**Status: trained on real PlantVillage data (15 classes). Lab-background
+images only — see limitations before field deployment.**
 
 ## Summary
 
 MobileNetV3-Small, ImageNet-pretrained backbone with the classifier head
-replaced and fine-tuned, for 9-class crop disease/healthy classification.
-10 epochs, AdamW, lr=1e-3, batch size 16.
+replaced and fine-tuned, for 15-class crop disease/healthy classification
+(pepper, potato, tomato). 8 epochs, AdamW, lr=1e-3, batch size 16. Best
+checkpoint selected on validation accuracy.
 
 ## Training data
 
-- **Source:** procedurally generated placeholder images
-  (`ml/disease_classification/make_sample_dataset.py`) — colored leaf
-  shapes with synthetic lesion blobs per class, with random blur/jitter.
-  **Not real plant photographs.**
-- **Why:** this environment had no Kaggle-authenticated access to download
-  the real PlantVillage dataset. This model exists only to prove the
-  train/eval/inference pipeline runs correctly end to end (data loading,
-  augmentation, checkpointing, confidence thresholding, FNR reporting).
-- **Classes (9):** tomato_healthy, tomato_early_blight, tomato_late_blight,
-  tomato_leaf_mold, potato_healthy, potato_early_blight, potato_late_blight,
-  corn_healthy, corn_common_rust.
-- **Split:** ~75% train / 25% val per class, generated from disjoint random
-  seeds (train and val images are generated separately, not held out from
-  the same pool).
+- **Source:** [PlantVillage](https://www.kaggle.com/datasets/emmarex/plantdisease)
+  (emmarex/plantdisease Kaggle mirror), the Pepper/Potato/Tomato subset —
+  real leaf photographs on lab (plain) backgrounds.
+- **Preparation:** `ml/disease_classification/prepare_plantvillage.py`
+  restructures the raw download into a train/val `ImageFolder` layout with a
+  per-class cap (train ≤250, val ≤50) to keep CPU training tractable. The
+  natural class imbalance below the cap is preserved, not equalized.
+- **Classes (15):** Pepper bell (bacterial spot, healthy); Potato (early
+  blight, late blight, healthy); Tomato (bacterial spot, early blight, late
+  blight, leaf mold, septoria leaf spot, spider mites, target spot, yellow
+  leaf curl virus, mosaic virus, healthy). See
+  `ml/disease_classification/classes.py`.
+- **Split:** disjoint per-class train/val (held out from the same pool by
+  `prepare_plantvillage.py`, seed=42).
 
 ## Evaluation metrics
 
-Run on the 90-image synthetic val split (10 images/class), from
-`ml/disease_classification/eval.py`. These numbers describe how well the
-model discriminates the synthetic dataset's base colors and blob patterns —
-a much easier task than distinguishing real lesion textures on real leaves.
-**Treat these as a pipeline-correctness check, not a disease-detection
-benchmark.**
+Run on the **730-image real val split**, from
+`ml/disease_classification/eval.py`.
 
-- **Overall accuracy: 73.3%** (66/90)
-- **False negative rate (disease → predicted healthy): 0.0%** — in this
-  synthetic run the model never mistook a diseased sample for healthy; all
-  its errors were disease-vs-disease or healthy-vs-healthy confusions. This
-  is tracked separately from accuracy because in a real deployment, missing
-  a real disease is worse than a false alarm — a 0% FNR here should not be
-  read as evidence the real model will have low FNR; it just confirms the
-  metric is computed correctly.
+- **Overall accuracy: 96.44%** (730 samples)
+- **False negative rate (disease → predicted healthy): 0.33%** — only 2 of
+  ~630 true-disease samples were misclassified as a healthy class. Tracked
+  separately from accuracy because for a farmer a missed disease is worse
+  than a false alarm.
 - **Per-class accuracy:**
 
-  | Class | Accuracy (n=10) |
-  |---|---|
-  | corn_common_rust | 100% |
-  | corn_healthy | 100% |
-  | tomato_healthy | 100% |
-  | tomato_late_blight | 100% |
-  | tomato_leaf_mold | 100% |
-  | tomato_early_blight | 90% |
-  | potato_early_blight | 40% |
-  | potato_late_blight | 30% |
-  | **potato_healthy** | **0%** |
+  | Class | n | Accuracy |
+  |---|---|---|
+  | Pepper bell — bacterial spot | 50 | 100% |
+  | Pepper bell — healthy | 50 | 100% |
+  | Potato — early blight | 50 | 98% |
+  | Potato — late blight | 50 | 98% |
+  | Potato — healthy | 30 | 90% |
+  | Tomato — bacterial spot | 50 | 96% |
+  | Tomato — early blight | 50 | 98% |
+  | Tomato — late blight | 50 | 96% |
+  | Tomato — leaf mold | 50 | 98% |
+  | Tomato — septoria leaf spot | 50 | 92% |
+  | Tomato — spider mites | 50 | 88% |
+  | Tomato — target spot | 50 | 90% |
+  | Tomato — yellow leaf curl virus | 50 | 100% |
+  | Tomato — mosaic virus | 50 | 100% |
+  | Tomato — healthy | 50 | 100% |
 
-  `potato_healthy` was confused almost entirely with `tomato_healthy` (the
-  two synthetic "healthy" classes only differ by a small green-shade
-  jitter — an easy confusion for a model with no real leaf-shape/texture
-  signal to lean on). This is a useful, honest failure mode to see in a
-  smoke test: it shows the pipeline correctly reports per-class weaknesses
-  rather than masking them behind a single accuracy number, but it also
-  illustrates why synthetic-data results cannot be trusted as a real
-  benchmark.
-- Confirmed manually via the live API: uploading a real val-set image
-  through `POST /predict-disease` reproduces this — `tomato_late_blight`
-  predicted at 98.9% confidence (correct), `potato_healthy` predicted as
-  `tomato_healthy` at 61.8% confidence (incorrect, but above the 0.60
-  threshold, so no "uncertain" flag was raised — a real sign the threshold
-  needs real-data calibration, not just a placeholder value).
+  Weakest classes are the visually subtle tomato conditions (spider mites
+  88%, target spot 90%, septoria 92%) — expected, as these are the hardest
+  to tell apart even for humans on a single leaf photo.
 
 ## Known limitations
 
-1. **Not trained on real images.** Zero evidence this generalizes to actual
-   leaf photos, let alone blurry/low-light phone photos from the field.
-2. **No real-world (non-lab-background) validation set exists yet.**
-   PlantVillage itself (once integrated) is lab-background; a separate
-   real-world set (e.g. PlantDoc) is needed to honestly test
-   generalization, per `data/sources.md`.
-3. **9 classes only**, a small subset of the ~38-class full PlantVillage
-   taxonomy.
-4. **Confidence threshold (0.60)** was chosen arbitrarily as a placeholder,
-   not calibrated against a real validation set with real-world stakes —
-   confirmed in testing above, where a wrong prediction at 61.8% confidence
-   passed the threshold uncaught.
-5. Class balance is artificially uniform (equal synthetic images per
-   class) — real-world class distributions are heavily imbalanced, which
-   this smoke test does not exercise.
+1. **Lab-background images only.** PlantVillage leaves are photographed on
+   plain backgrounds under even lighting. These numbers do **not** predict
+   accuracy on cluttered, variably-lit real field/phone photos. A separate
+   real-world set (e.g. PlantDoc) is still needed to honestly test
+   generalization — see `data/sources.md`.
+2. **3 crops only** (pepper, potato, tomato). Chilli is served via the
+   pepper model (same genus *Capsicum*). Corn, paddy, toor dal, groundnut,
+   and cotton have **no trained detector** — the app serves them as
+   knowledge-base advisories, not photo diagnoses.
+3. **Confidence threshold (0.60)** in `infer.py` is still a placeholder, not
+   calibrated against a real false-negative/false-alarm tradeoff with
+   agronomist input.
+4. Class distribution is capped/imbalanced (train ≤250/class); rare
+   real-world classes with few photos are not well exercised.
 
-## Next steps to make this a real model
+## Next steps
 
-1. Download PlantVillage (`data/sources.md`) and a real-world field-photo
-   set (e.g. PlantDoc), replace `data/sample_images/` with them.
-2. Retrain, re-run `eval.py`, and replace the metrics section above with
-   real numbers, broken out by lab-background vs. real-world val sets.
-3. Re-calibrate `CONFIDENCE_THRESHOLD` in `ml/disease_classification/infer.py`
-   against the real false-negative/false-alarm tradeoff, ideally with
-   agronomist input on acceptable miss rates per disease.
-4. Expand to the full disease/pest taxonomy needed for target crops/regions.
+1. Add a real-world (non-lab) validation set and report accuracy broken out
+   by lab vs. field images.
+2. Add labelled datasets for corn, rice, cotton, groundnut, pigeon pea to
+   extend photo-detection to those crops (the pipeline already generalizes
+   to any `ImageFolder`).
+3. Re-calibrate `CONFIDENCE_THRESHOLD` against real stakes with agronomist
+   input on acceptable per-disease miss rates.

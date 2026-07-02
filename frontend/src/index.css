@@ -1,0 +1,115 @@
+:root {
+  --green-900: #14432a;
+  --green-700: #1f7a4d;
+  --green-600: #2e9e63;
+  --green-100: #e6f4ec;
+  --amber-100: #fdf3d8;
+  --amber-700: #a06a00;
+  --red-100: #fdeaea;
+  --red-700: #b3261e;
+  --gray-50: #f7f9f8;
+  --gray-200: #e3e8e6;
+  --gray-500: #6b7770;
+  --gray-800: #23302b;
+  --shadow: 0 4px 20px rgba(20, 67, 42, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.5;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--green-700), var(--green-900));
+  color: #fff;
+  padding: 28px 20px;
+  text-align: center;
+}
+.header h1 { margin: 0 0 6px; font-size: 1.7rem; }
+.header p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 24px 16px 60px; }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.section-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 12px; }
+
+.crop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.crop-btn {
+  border: 2px solid var(--gray-200);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  font-size: 0.9rem;
+}
+.crop-btn:hover { border-color: var(--green-600); }
+.crop-btn.active { border-color: var(--green-600); background: var(--green-100); font-weight: 700; }
+.crop-emoji { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+
+.badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-top: 6px; }
+.badge.supported { background: var(--green-100); color: var(--green-700); }
+.badge.proxy { background: var(--amber-100); color: var(--amber-700); }
+.badge.advisory { background: var(--red-100); color: var(--red-700); }
+
+.dropzone {
+  border: 2px dashed var(--green-600);
+  border-radius: 14px;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--green-100);
+  transition: background 0.15s;
+}
+.dropzone:hover { background: #dcefe3; }
+.dropzone input { display: none; }
+.preview-img { max-width: 100%; max-height: 300px; border-radius: 12px; margin-top: 12px; }
+
+.btn {
+  background: var(--green-700);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.secondary { background: transparent; color: var(--green-700); border: 1px solid var(--green-700); }
+
+.result-diagnosis { font-size: 1.3rem; font-weight: 800; color: var(--green-900); }
+.confidence-bar { height: 10px; background: var(--gray-200); border-radius: 6px; overflow: hidden; margin: 8px 0; }
+.confidence-fill { height: 100%; background: var(--green-600); }
+
+.notice { padding: 12px 14px; border-radius: 10px; font-size: 0.9rem; margin-top: 12px; }
+.notice.warn { background: var(--amber-100); color: var(--amber-700); }
+.notice.info { background: var(--green-100); color: var(--green-700); }
+.notice.error { background: var(--red-100); color: var(--red-700); }
+
+.kv { margin: 10px 0; }
+.kv .label { font-weight: 700; font-size: 0.85rem; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.03em; }
+ul.tight { margin: 6px 0; padding-left: 20px; }
+.chip { display: inline-block; background: var(--green-100); color: var(--green-700); border-radius: 8px; padding: 4px 10px; margin: 3px 4px 3px 0; font-size: 0.88rem; }
+.source { font-size: 0.8rem; color: var(--gray-500); margin-top: 8px; }
+.disclaimer { font-size: 0.82rem; color: var(--amber-700); background: var(--amber-100); padding: 10px 12px; border-radius: 10px; margin-top: 12px; }
+.top5 { font-size: 0.82rem; color: var(--gray-500); margin-top: 10px; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.footer { text-align: center; font-size: 0.8rem; color: var(--gray-500); padding: 20px; }
+a { color: var(--green-700); }

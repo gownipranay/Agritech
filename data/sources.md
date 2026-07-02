@@ -2,19 +2,19 @@
 
 ## Phase 1 — Disease/pest image classification
 
-**Current status (smoke test):** The checkpoint in `ml/checkpoints/` (if
-present) was trained on `data/sample_images/`, a set of **procedurally
-generated placeholder images** (`ml/disease_classification/make_sample_dataset.py`),
-not real plant photos. This exists only to prove the training/eval/inference
-pipeline runs correctly end to end. Its accuracy numbers are meaningless as
-a measure of real disease-detection performance — do not cite them outside
-this repo.
+**Current status:** The shipped checkpoint in `ml/checkpoints/disease_model.pt`
+is trained on the **real PlantVillage** Pepper/Potato/Tomato subset (15
+classes), achieving 96.4% val accuracy / 0.33% FNR on a 730-image held-out
+split (see `model_card.md`). The synthetic generator
+(`make_sample_dataset.py`) is kept only for pipeline smoke tests.
 
-**Planned real training data (not yet downloaded):**
-- [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease) —
-  ~54,000 lab-background leaf images across 38 crop/disease classes.
-  Requires a free Kaggle account + API token to download
-  (`kaggle datasets download -d emmarex/plantdisease`).
+**Training data used:**
+- [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease)
+  (emmarex/plantdisease mirror) — lab-background leaf images. Downloaded to
+  `data/plantvillage_raw/`, then restructured into `data/plantvillage/`
+  (train/val `ImageFolder`) by `prepare_plantvillage.py`. Both dirs are
+  gitignored (large); regenerate with
+  `kaggle datasets download -d emmarex/plantdisease`.
 - A supplementary set of real-world, non-lab-background field photos
   (cluttered backgrounds, variable lighting) is needed to honestly evaluate
   generalization beyond PlantVillage's clean studio images — e.g.
@@ -26,10 +26,12 @@ this repo.
 - Planned source: [data.gov.in](https://www.data.gov.in) agriculture
   datasets (district-wise crop yield, area, production).
 
-## Phase 4 — Treatment recommendation knowledge base (not yet built)
+## Phase 4 — Treatment recommendation knowledge base
 
-No knowledge base rows exist yet. When Phase 4 is built, every
-`disease -> active_ingredient` row must cite one of:
+Implemented in `data/knowledge_base/treatments.json` (disease → active
+ingredient / dosage / cultural controls, each with a source) and
+`data/knowledge_base/crops.json` (crop catalogue + vision-support status).
+Every `disease -> active_ingredient` row cites one of:
 - ICAR (Indian Council of Agricultural Research) advisories
 - Krishi Vigyan Kendra (KVK) extension publications
 - State agricultural university extension guides
