@@ -232,6 +232,23 @@ function TreatmentCard({ t, title, embedded }) {
       )}
 
       <div className="source">Source: {t.source}</div>
+
+      {t.products?.length > 0 && (
+        <div className="kv">
+          <div className="label">Branded products (matched by active ingredient)</div>
+          <div className="product-list">
+            {t.products.map((p, i) => (
+              <a className="product" key={i} href={p.source} target="_blank" rel="noreferrer">
+                <span className="product-company">{p.company}</span>
+                <span className="product-name">{p.name}</span>
+                <span className="product-ai">{p.active_ingredient}</span>
+              </a>
+            ))}
+          </div>
+          {t.products_disclaimer && <div className="source">{t.products_disclaimer}</div>}
+        </div>
+      )}
+
       {t.disclaimer && <div className="disclaimer">⚠️ {t.disclaimer}</div>}
     </>
   );

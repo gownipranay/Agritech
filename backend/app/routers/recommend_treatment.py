@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from app.services.knowledge_base import get_treatment, global_disclaimer
+from app.services.knowledge_base import (
+    get_treatment,
+    global_disclaimer,
+    match_products,
+    products_disclaimer,
+)
 
 router = APIRouter()
 
@@ -26,8 +31,11 @@ async def recommend_treatment(req: TreatmentRequest):
             status_code=404,
             detail=f"No treatment entry for '{req.disease_key}'. It may be a healthy class or unknown.",
         )
+    products = match_products(entry["active_ingredients"])
     return {
         "disease_key": req.disease_key,
         **entry,
+        "products": products,
+        "products_disclaimer": products_disclaimer(),
         "disclaimer": global_disclaimer(),
     }

@@ -42,3 +42,22 @@ def get_treatment(disease_key: str) -> dict | None:
 
 def global_disclaimer() -> str:
     return _load("treatments.json")["_disclaimer"]
+
+
+def products_disclaimer() -> str:
+    return _load("products.json")["_disclaimer"]
+
+
+def match_products(active_ingredients: list[str]) -> list[dict]:
+    """Retrieval, not generation: return branded products whose match_keywords
+    are contained in one of the already-selected active ingredients. A brand
+    can only surface because its active ingredient matched the diagnosis.
+    """
+    haystacks = [a.lower() for a in active_ingredients]
+    matched = []
+    for prod in _load("products.json")["products"]:
+        for kw in prod["match_keywords"]:
+            if any(kw in h for h in haystacks):
+                matched.append({k: v for k, v in prod.items() if k != "match_keywords"})
+                break
+    return matched
