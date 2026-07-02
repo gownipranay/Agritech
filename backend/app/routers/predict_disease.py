@@ -1,10 +1,11 @@
 import io
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from PIL import Image
 
 from app.schemas.disease import DiseasePredictionResponse
 from app.services.disease_inference import get_classifier
+from app.services.knowledge_base import get_crop
 
 router = APIRouter()
 
@@ -13,7 +14,7 @@ MAX_IMAGE_BYTES = 10 * 1024 * 1024
 
 
 @router.post("/predict-disease", response_model=DiseasePredictionResponse)
-async def predict_disease(file: UploadFile = File(...)):
+async def predict_disease(file: UploadFile = File(...), crop_id: str | None = Form(default=None)):
     if file.content_type not in ALLOWED_CONTENT_TYPES:
         raise HTTPException(status_code=415, detail=f"Unsupported content type: {file.content_type}")
 
@@ -37,5 +38,13 @@ async def predict_disease(file: UploadFile = File(...)):
             ),
         )
 
-    result = classifier.predict(image)
+    # Scope the prediction to the selected crop's classes when we can, so an
+    # out-of-distribution field photo of one crop can't be labelled as another.
+    allowed_prefixes = None
+    if crop_id:
+        crop = get_crop(crop_id)
+        if crop and crop.get("vision_classes_prefix"):
+            allowed_prefixes = [crop["vision_classes_prefix"]]
+
+    result = classifier.predict(image, allowed_prefixes=allowed_prefixes)
     return DiseasePredictionResponse(**result, model_version="mobilenetv3-small-multicrop-v2")

@@ -26,17 +26,47 @@ class DiseaseClassifier:
         self.model.eval()
 
     @torch.no_grad()
-    def predict(self, image: Image.Image) -> dict:
+    def predict(self, image: Image.Image, allowed_prefixes: list[str] | None = None) -> dict:
+        """Classify a leaf image.
+
+        allowed_prefixes: if given (e.g. ["Tomato"] or ["corn"]), the model is
+        restricted to classes whose name starts with one of these prefixes and
+        the probabilities are renormalized within that set. This is used to
+        scope a prediction to the crop the user selected, so a tomato photo can
+        never be labelled "cotton" — a real problem when users upload
+        out-of-distribution field photos to a lab-trained model.
+        """
         image = image.convert("RGB")
         tensor = EVAL_TRANSFORM(image).unsqueeze(0).to(self.device)
         logits = self.model(tensor)
         probs = F.softmax(logits, dim=1).squeeze(0)
 
-        top_prob, top_idx = torch.max(probs, dim=0)
-        confidence = top_prob.item()
-        predicted_class = self.classes[top_idx.item()]
+        if allowed_prefixes:
+            allowed_idx = [
+                i for i, c in enumerate(self.classes)
+                if any(c.startswith(p) for p in allowed_prefixes)
+            ]
+        else:
+            allowed_idx = list(range(len(self.classes)))
+
+        # Renormalize over just the allowed classes so confidence is meaningful
+        # relative to the selected crop.
+        allowed_probs = probs[allowed_idx]
+        allowed_probs = allowed_probs / allowed_probs.sum()
+
+        best_local = int(torch.argmax(allowed_probs).item())
+        top_idx = allowed_idx[best_local]
+        confidence = allowed_probs[best_local].item()
+        predicted_class = self.classes[top_idx]
 
         is_confident = confidence >= CONFIDENCE_THRESHOLD
+
+        k = min(5, len(allowed_idx))
+        top_probs, top_local = torch.topk(allowed_probs, k=k)
+        top_5 = [
+            {"class": self.classes[allowed_idx[li]], "confidence": round(p.item(), 4)}
+            for p, li in zip(top_probs, top_local)
+        ]
 
         return {
             "predicted_class": predicted_class if is_confident else None,
@@ -47,10 +77,7 @@ class DiseaseClassifier:
                 if is_confident
                 else "uncertain — please consult local expert (Krishi Vigyan Kendra or agri-input dealer)"
             ),
-            "top_5": [
-                {"class": self.classes[i], "confidence": round(p.item(), 4)}
-                for p, i in zip(*torch.topk(probs, k=min(5, len(self.classes))))
-            ],
+            "top_5": top_5,
         }
 
 

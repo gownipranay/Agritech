@@ -9,9 +9,10 @@ export async function fetchCrops() {
   return (await res.json()).crops;
 }
 
-export async function predictDisease(file) {
+export async function predictDisease(file, cropId) {
   const form = new FormData();
   form.append("file", file);
+  if (cropId) form.append("crop_id", cropId);
   const res = await fetch(`${API_BASE}/predict-disease`, {
     method: "POST",
     body: form,

@@ -75,7 +75,7 @@ export default function App() {
           setLoading(false);
           return;
         }
-        const pred = await predictDisease(file);
+        const pred = await predictDisease(file, selected.id);
         setPrediction(pred);
         if (pred.is_confident && pred.predicted_class) {
           const t = await recommendTreatment(pred.predicted_class);
