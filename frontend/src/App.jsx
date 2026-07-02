@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchCrops, predictDisease, recommendTreatment } from "./api.js";
+import { fetchCrops, fetchFertilizer, predictDisease, recommendTreatment } from "./api.js";
 import {
   CROP_EMOJI,
   FALLBACK_CROPS,
@@ -24,6 +24,7 @@ export default function App() {
   const [prediction, setPrediction] = useState(null);
   const [treatment, setTreatment] = useState(null);
   const [advisoryList, setAdvisoryList] = useState(null);
+  const [fertilizer, setFertilizer] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -42,6 +43,10 @@ export default function App() {
   function selectCrop(crop) {
     setSelected(crop);
     resetResults();
+    setFertilizer(null);
+    fetchFertilizer(crop.id)
+      .then(setFertilizer)
+      .catch(() => setFertilizer(null));
   }
 
   function onFile(e) {
@@ -159,6 +164,9 @@ export default function App() {
           </section>
         )}
 
+        {/* Fertilizer plan (per selected crop) */}
+        {selected && fertilizer && <FertilizerCard f={fertilizer} cropName={selected.name} />}
+
         {error && <div className="card"><div className="notice error">{error}</div></div>}
 
         {/* Prediction result */}
@@ -263,6 +271,62 @@ function TreatmentCard({ t, title, embedded }) {
     <section className="card">
       {title && <h2 className="section-title">{title}</h2>}
       {body}
+    </section>
+  );
+}
+
+function FertilizerCard({ f, cropName }) {
+  return (
+    <section className="card">
+      <h2 className="section-title">🌾 Fertilizer plan for {cropName}</h2>
+
+      <div className="kv">
+        <div className="label">Recommended dose (per hectare)</div>
+        <div className="result-diagnosis" style={{ fontSize: "1.05rem" }}>{f.npk_kg_per_ha}</div>
+      </div>
+
+      {f.schedule?.length > 0 && (
+        <div className="kv">
+          <div className="label">Application schedule</div>
+          <ul className="tight">
+            {f.schedule.map((s, i) => (
+              <li key={i}><b>{s.stage}:</b> {s.apply} <span className="product-ai">({s.as})</span></li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {f.straight_fertilizers?.length > 0 && (
+        <div className="kv">
+          <div className="label">Fertilizers to use</div>
+          {f.straight_fertilizers.map((s, i) => <span className="chip" key={i}>{s}</span>)}
+        </div>
+      )}
+
+      {f.micronutrients && (
+        <div className="kv">
+          <div className="label">Micronutrients / notes</div>
+          <div>{f.micronutrients}</div>
+        </div>
+      )}
+
+      {f.branded_products?.length > 0 && (
+        <div className="kv">
+          <div className="label">Branded fertilizer products</div>
+          <div className="product-list">
+            {f.branded_products.map((p, i) => (
+              <a className="product" key={i} href={p.source} target="_blank" rel="noreferrer">
+                <span className="product-company">{p.company}</span>
+                <span className="product-name">{p.name}</span>
+                <span className="product-ai">{p.grade}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="source">Source: {f.source}</div>
+      {f.disclaimer && <div className="disclaimer">⚠️ {f.disclaimer}</div>}
     </section>
   );
 }

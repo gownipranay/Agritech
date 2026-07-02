@@ -48,6 +48,14 @@ def products_disclaimer() -> str:
     return _load("products.json")["_disclaimer"]
 
 
+def get_fertilizer(crop_id: str) -> dict | None:
+    return _load("fertilizers.json")["fertilizers"].get(crop_id)
+
+
+def fertilizer_disclaimer() -> str:
+    return _load("fertilizers.json")["_disclaimer"]
+
+
 def match_products(active_ingredients: list[str]) -> list[dict]:
     """Retrieval, not generation: return branded products whose match_keywords
     are contained in one of the already-selected active ingredients. A brand

@@ -1,6 +1,11 @@
 from fastapi import APIRouter, HTTPException
 
-from app.services.knowledge_base import get_crop, get_crops
+from app.services.knowledge_base import (
+    fertilizer_disclaimer,
+    get_crop,
+    get_crops,
+    get_fertilizer,
+)
 
 router = APIRouter()
 
@@ -24,3 +29,15 @@ async def crop_detail(crop_id: str):
     if crop is None:
         raise HTTPException(status_code=404, detail=f"Unknown crop: {crop_id}")
     return crop
+
+
+@router.get("/crops/{crop_id}/fertilizer")
+async def crop_fertilizer(crop_id: str):
+    """Per-crop fertilizer / nutrient recommendation (NPK rate, split schedule,
+    branded fertilizer products). Deterministic lookup from the curated
+    knowledge base — soil-test-based dosing, not an LLM guess.
+    """
+    fert = get_fertilizer(crop_id)
+    if fert is None:
+        raise HTTPException(status_code=404, detail=f"No fertilizer data for crop: {crop_id}")
+    return {"crop_id": crop_id, **fert, "disclaimer": fertilizer_disclaimer()}

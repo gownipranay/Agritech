@@ -1,0 +1,143 @@
+{
+  "_note": "Per-crop fertilizer / nutrient recommendations. NPK rates are general ICAR / State Agricultural University 'package of practices' figures per hectare for irrigated conditions; the actual dose must come from a soil test. Branded fertilizer products list real grades from Indian fertilizer companies (IFFCO, Coromandel, Yara, Zuari, etc.) mapped to their nutrient grade — shown for convenience, not as an endorsement. This is a deterministic lookup, not an LLM guess.",
+  "_disclaimer": "Fertilizer rates are indicative and assume irrigated conditions. Always base the final dose on a soil-test report and confirm with your local Krishi Vigyan Kendra (KVK) or agri-input dealer. Follow the product label and recommended split application.",
+  "fertilizers": {
+    "tomato": {
+      "npk_kg_per_ha": "120 N : 60 P2O5 : 60 K2O",
+      "schedule": [
+        {"stage": "Basal (transplanting)", "apply": "Full P & K + 1/3 N", "as": "DAP + MOP + part Urea"},
+        {"stage": "30 days after transplant", "apply": "1/3 N", "as": "Urea top-dressing"},
+        {"stage": "At flowering/fruit set", "apply": "1/3 N", "as": "Urea top-dressing"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Apply Borax 10 kg/ha if fruit cracking; spray Ca nitrate to prevent blossom-end rot.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "NPK 12:32:16", "grade": "complex", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor 28:28:0", "grade": "complex", "source": "https://www.coromandel.biz/"},
+        {"company": "Yara", "name": "YaraMila / YaraLiva Calcinit", "grade": "water-soluble", "source": "https://www.yara.in/"}
+      ],
+      "source": "ICAR-IIHR / TNAU tomato package of practices"
+    },
+    "potato": {
+      "npk_kg_per_ha": "150 N : 80 P2O5 : 100 K2O",
+      "schedule": [
+        {"stage": "Basal (planting)", "apply": "Full P & K + half N", "as": "DAP + MOP + part Urea"},
+        {"stage": "At earthing up (~30-35 DAP)", "apply": "Remaining half N", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Potato is K-responsive; ensure adequate MOP. Apply Zinc sulphate 25 kg/ha if deficient.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "NPK 10:26:26", "grade": "complex", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor DAP", "grade": "DAP", "source": "https://www.coromandel.biz/"},
+        {"company": "Zuari", "name": "Jai Kisaan MOP", "grade": "MOP", "source": "https://www.zuari.in/"}
+      ],
+      "source": "ICAR-CPRI potato package of practices"
+    },
+    "bell_pepper": {
+      "npk_kg_per_ha": "100 N : 50 P2O5 : 50 K2O",
+      "schedule": [
+        {"stage": "Basal", "apply": "Full P & K + 1/3 N", "as": "DAP + MOP + Urea"},
+        {"stage": "30 & 60 days after transplant", "apply": "Remaining N in 2 splits", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Spray Ca nitrate + Boron to reduce fruit disorders.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "NPK 12:32:16", "grade": "complex", "source": "https://www.iffco.in/en/products"},
+        {"company": "Yara", "name": "YaraMila Complex", "grade": "complex", "source": "https://www.yara.in/"}
+      ],
+      "source": "ICAR-IIHR capsicum package of practices"
+    },
+    "chilli": {
+      "npk_kg_per_ha": "120 N : 60 P2O5 : 60 K2O",
+      "schedule": [
+        {"stage": "Basal", "apply": "Full P & K + 1/3 N", "as": "DAP + MOP + Urea"},
+        {"stage": "30 days after transplant", "apply": "1/3 N", "as": "Urea"},
+        {"stage": "At flowering", "apply": "1/3 N", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Spray Zinc sulphate 0.5% + Boron 0.2% at flowering to improve fruit set.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "NPK 12:32:16", "grade": "complex", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor 28:28:0", "grade": "complex", "source": "https://www.coromandel.biz/"}
+      ],
+      "source": "TNAU / ICAR chilli package of practices"
+    },
+    "corn": {
+      "npk_kg_per_ha": "120 N : 60 P2O5 : 40 K2O",
+      "schedule": [
+        {"stage": "Basal (sowing)", "apply": "Full P & K + 1/3 N", "as": "DAP + MOP + Urea"},
+        {"stage": "Knee-high (~30 DAS)", "apply": "1/3 N", "as": "Urea"},
+        {"stage": "Tasseling", "apply": "1/3 N", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Maize is Zn-sensitive: apply Zinc sulphate 25 kg/ha at sowing.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "Urea / NPK 10:26:26", "grade": "N / complex", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor DAP", "grade": "DAP", "source": "https://www.coromandel.biz/"}
+      ],
+      "source": "ICAR-IIMR maize package of practices"
+    },
+    "paddy": {
+      "npk_kg_per_ha": "120 N : 60 P2O5 : 40 K2O",
+      "schedule": [
+        {"stage": "Basal (transplanting)", "apply": "Full P & K + 1/2 N", "as": "DAP + MOP + Urea"},
+        {"stage": "Active tillering", "apply": "1/4 N", "as": "Urea"},
+        {"stage": "Panicle initiation", "apply": "1/4 N", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Apply Zinc sulphate 25 kg/ha; consider IFFCO Nano Urea foliar spray to cut Urea use.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "Nano Urea Plus / Urea", "grade": "N", "source": "https://www.iffco.in/en/nano-products"},
+        {"company": "Coromandel", "name": "Gromor 20:20:0:13", "grade": "complex", "source": "https://www.coromandel.biz/"},
+        {"company": "Zuari", "name": "Jai Kisaan DAP", "grade": "DAP", "source": "https://www.zuari.in/"}
+      ],
+      "source": "ICAR-IIRR rice package of practices"
+    },
+    "toor_dal": {
+      "npk_kg_per_ha": "25 N : 50 P2O5 : 0 K2O (a starter dose — pigeon pea is a legume that fixes N)",
+      "schedule": [
+        {"stage": "Basal (sowing)", "apply": "Full N & P as a starter", "as": "DAP"},
+        {"stage": "Seed treatment", "apply": "Rhizobium + PSB culture", "as": "biofertilizer inoculation"}
+      ],
+      "straight_fertilizers": ["DAP (18-46-0)", "SSP (16% P2O5 + S)"],
+      "micronutrients": "Being a legume, keep N low. Inoculate seed with Rhizobium. Apply Sulphur 20 kg/ha via SSP/gypsum.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "DAP / Sagarika (bio)", "grade": "DAP / bio", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor SSP", "grade": "SSP", "source": "https://www.coromandel.biz/"}
+      ],
+      "source": "ICAR-IIPR pigeon pea package of practices"
+    },
+    "groundnut": {
+      "npk_kg_per_ha": "20 N : 40 P2O5 : 40 K2O (legume — low N, gypsum important)",
+      "schedule": [
+        {"stage": "Basal (sowing)", "apply": "Full N, P & K", "as": "DAP + MOP + Urea"},
+        {"stage": "At pegging (~40-45 DAS)", "apply": "Gypsum 400-500 kg/ha", "as": "Gypsum (Ca + S)"},
+        {"stage": "Seed treatment", "apply": "Rhizobium + PSB", "as": "biofertilizer"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "SSP (16% P2O5 + S)", "MOP (0-0-60)", "Gypsum"],
+      "micronutrients": "Gypsum at pegging is critical for pod filling. Apply Boron & Zinc if deficient.",
+      "branded_products": [
+        {"company": "Coromandel", "name": "Gromor SSP + Gypsum", "grade": "SSP / gypsum", "source": "https://www.coromandel.biz/"},
+        {"company": "IFFCO", "name": "DAP / Bentonite Sulphur", "grade": "DAP / S", "source": "https://www.iffco.in/en/products"}
+      ],
+      "source": "ICAR-DGR groundnut package of practices"
+    },
+    "cotton": {
+      "npk_kg_per_ha": "120 N : 60 P2O5 : 60 K2O (irrigated Bt cotton)",
+      "schedule": [
+        {"stage": "Basal (sowing)", "apply": "Full P & K + 1/4 N", "as": "DAP + MOP + Urea"},
+        {"stage": "Squaring (~40 DAS)", "apply": "1/4 N", "as": "Urea"},
+        {"stage": "Flowering", "apply": "1/4 N", "as": "Urea"},
+        {"stage": "Boll development", "apply": "1/4 N", "as": "Urea"}
+      ],
+      "straight_fertilizers": ["Urea (46% N)", "DAP (18-46-0)", "MOP (0-0-60)"],
+      "micronutrients": "Spray 2% DAP + 1% MOP at flowering/boll stage; apply Magnesium sulphate & Boron if reddening/shedding.",
+      "branded_products": [
+        {"company": "IFFCO", "name": "NPK 10:26:26 / Urea", "grade": "complex / N", "source": "https://www.iffco.in/en/products"},
+        {"company": "Coromandel", "name": "Gromor 14:35:14", "grade": "complex", "source": "https://www.coromandel.biz/"},
+        {"company": "Yara", "name": "YaraMila / YaraVita", "grade": "complex / foliar", "source": "https://www.yara.in/"}
+      ],
+      "source": "ICAR-CICR cotton package of practices"
+    }
+  }
+}

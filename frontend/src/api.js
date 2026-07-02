@@ -26,6 +26,12 @@ export async function predictDisease(file) {
   return res.json();
 }
 
+export async function fetchFertilizer(cropId) {
+  const res = await fetch(`${API_BASE}/crops/${cropId}/fertilizer`);
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function recommendTreatment(diseaseKey) {
   const res = await fetch(`${API_BASE}/recommend-treatment`, {
     method: "POST",
