@@ -8,13 +8,28 @@ classes), achieving 96.4% val accuracy / 0.33% FNR on a 730-image held-out
 split (see `model_card.md`). The synthetic generator
 (`make_sample_dataset.py`) is kept only for pipeline smoke tests.
 
-**Training data used:**
-- [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease)
-  (emmarex/plantdisease mirror) — lab-background leaf images. Downloaded to
-  `data/plantvillage_raw/`, then restructured into `data/plantvillage/`
-  (train/val `ImageFolder`) by `prepare_plantvillage.py`. Both dirs are
-  gitignored (large); regenerate with
-  `kaggle datasets download -d emmarex/plantdisease`.
+**Training data used (29 classes total):**
+- [PlantVillage](https://www.kaggle.com/datasets/emmarex/plantdisease)
+  (emmarex/plantdisease) — pepper/potato/tomato, 15 classes. Restructured by
+  `prepare_plantvillage.py`.
+- [Corn/Maize Leaf Disease](https://www.kaggle.com/datasets/smaranjitghose/corn-or-maize-leaf-disease-dataset)
+  — common rust, gray leaf spot, blight, healthy.
+- [Rice Leaf Disease Images](https://www.kaggle.com/datasets/nirmalsankalana/rice-leaf-disease-image)
+  — bacterial blight, blast, brown spot, tungro.
+- [Cotton Leaf Disease](https://www.kaggle.com/datasets/seroshkarim/cotton-leaf-disease-dataset)
+  — bacterial blight, curl virus, fusarium wilt, healthy.
+- [Chilli Leaf Disease](https://www.kaggle.com/datasets/sohanmirza/chilli-leaf-disease)
+  — leaf curl vs. healthy (only these two classes available).
+
+  Maize/rice/cotton/chilli are merged into `data/plantvillage/` by
+  `prepare_extra_crops.py`. Raw downloads live in `data/crop_raw/` and
+  `data/plantvillage_raw/`; both (and `data/plantvillage/`) are gitignored
+  (large), regenerate via the `kaggle datasets download` refs above.
+
+- **Groundnut** was evaluated but excluded: the available
+  [groundnut dataset](https://www.kaggle.com/datasets/muhammadazeemabbas/groundnut-leaves-dataset)
+  is object-detection format (Pascal-VOC XML, no disease class folders), so
+  groundnut stays advisory-only until a classification dataset is sourced.
 - A supplementary set of real-world, non-lab-background field photos
   (cluttered backgrounds, variable lighting) is needed to honestly evaluate
   generalization beyond PlantVillage's clean studio images — e.g.

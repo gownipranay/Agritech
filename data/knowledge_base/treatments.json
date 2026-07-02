@@ -250,6 +250,22 @@
       "cultural_controls": ["Balanced potash", "Remove infected debris", "Avoid moisture stress"],
       "source": "ICAR-CICR cotton disease advisory"
     },
+    "cotton_fusarium_wilt": {
+      "label": "Fusarium wilt of cotton",
+      "type": "fungal (soil-borne)",
+      "active_ingredients": ["Seed treatment: Carbendazim 50% WP / Trichoderma viride", "Soil drench Carbendazim in affected patches"],
+      "indicative_dosage": "Seed treat Carbendazim 2 g/kg seed or Trichoderma 4 g/kg; spot drench 1 g/L",
+      "cultural_controls": ["Wilt-resistant/tolerant varieties", "Crop rotation with non-host", "Deep summer ploughing", "FYM enriched with Trichoderma", "Balanced potash, avoid water stress"],
+      "source": "ICAR-CICR cotton wilt advisory"
+    },
+    "paddy_tungro": {
+      "label": "Rice tungro disease (RTD)",
+      "type": "viral (green leafhopper-transmitted)",
+      "active_ingredients": ["No chemical cures the virus. Manage green leafhopper vector: Imidacloprid 17.8% SL / Thiamethoxam 25% WG"],
+      "indicative_dosage": "Imidacloprid 0.3 mL/L for leafhopper; rogue infected plants early",
+      "cultural_controls": ["Resistant varieties", "Synchronous planting in an area", "Rogue infected (orange-yellow, stunted) plants", "Avoid staggered nurseries", "Control leafhopper in nursery"],
+      "source": "ICAR-IIRR rice tungro advisory"
+    },
     "cotton_root_rot": {
       "label": "Root rot of cotton",
       "type": "fungal (soil-borne)",

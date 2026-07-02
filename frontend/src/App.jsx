@@ -133,6 +133,9 @@ export default function App() {
             ) : (
               <>
                 <h2 className="section-title">2. Upload a leaf photo</h2>
+                {selected.vision_note && (
+                  <div className="notice info">{selected.vision_note}</div>
+                )}
                 {selected.vision_support === "vision_proxy" && (
                   <div className="notice warn">
                     Chilli uses the bell-pepper detector (same Capsicum genus). Leaf-spot detection

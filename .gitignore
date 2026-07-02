@@ -46,3 +46,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Raw crop datasets (maize/rice/cotton/chilli/groundnut) — large, regenerate via kaggle
+data/crop_raw/

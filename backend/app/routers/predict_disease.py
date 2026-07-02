@@ -38,4 +38,4 @@ async def predict_disease(file: UploadFile = File(...)):
         )
 
     result = classifier.predict(image)
-    return DiseasePredictionResponse(**result, model_version="mobilenetv3-small-plantvillage-v1")
+    return DiseasePredictionResponse(**result, model_version="mobilenetv3-small-multicrop-v2")

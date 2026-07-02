@@ -17,12 +17,12 @@ export const FALLBACK_CROPS = [
   { id: "tomato", name: "Tomato", vision_support: "vision_supported" },
   { id: "potato", name: "Potato", vision_support: "vision_supported" },
   { id: "bell_pepper", name: "Bell Pepper", vision_support: "vision_supported" },
-  { id: "chilli", name: "Chilli", vision_support: "vision_proxy" },
-  { id: "corn", name: "Corn / Maize", vision_support: "advisory_only" },
-  { id: "paddy", name: "Paddy / Rice", vision_support: "advisory_only" },
+  { id: "chilli", name: "Chilli", vision_support: "vision_supported" },
+  { id: "corn", name: "Corn / Maize", vision_support: "vision_supported" },
+  { id: "paddy", name: "Paddy / Rice", vision_support: "vision_supported" },
   { id: "toor_dal", name: "Toor Dal", vision_support: "advisory_only" },
   { id: "groundnut", name: "Groundnut", vision_support: "advisory_only" },
-  { id: "cotton", name: "Cotton", vision_support: "advisory_only" },
+  { id: "cotton", name: "Cotton", vision_support: "vision_supported" },
 ];
 
 export const SUPPORT_LABEL = {

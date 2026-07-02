@@ -14,7 +14,21 @@
     "Tomato__Target_Spot",
     "Tomato__Tomato_YellowLeaf__Curl_Virus",
     "Tomato__Tomato_mosaic_virus",
-    "Tomato_healthy"
+    "Tomato_healthy",
+    "chilli_healthy",
+    "chilli_leaf_curl_virus",
+    "corn_common_rust",
+    "corn_gray_leaf_spot",
+    "corn_healthy",
+    "corn_northern_leaf_blight",
+    "cotton_bacterial_blight",
+    "cotton_fusarium_wilt",
+    "cotton_healthy",
+    "cotton_leaf_curl_virus",
+    "paddy_bacterial_leaf_blight",
+    "paddy_blast",
+    "paddy_brown_spot",
+    "paddy_tungro"
   ],
-  "best_val_acc": 0.9643835616438357
+  "best_val_acc": 0.9335664335664335
 }

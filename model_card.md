@@ -1,89 +1,86 @@
 # Model Card — AgriAI Disease Classifier (Phase 1)
 
-**Status: trained on real PlantVillage data (15 classes). Lab-background
-images only — see limitations before field deployment.**
+**Status: trained on real data, 29 classes across 7 crops. Lab/curated
+images — see limitations before field deployment.**
 
 ## Summary
 
 MobileNetV3-Small, ImageNet-pretrained backbone with the classifier head
-replaced and fine-tuned, for 15-class crop disease/healthy classification
-(pepper, potato, tomato). 8 epochs, AdamW, lr=1e-3, batch size 16. Best
-checkpoint selected on validation accuracy.
+replaced and fine-tuned, for 29-class crop disease/healthy classification
+across pepper, potato, tomato, maize, rice (paddy), cotton, and chilli.
+8 epochs, AdamW, lr=1e-3, batch size 16. Best checkpoint selected on
+validation accuracy.
 
 ## Training data
 
-- **Source:** [PlantVillage](https://www.kaggle.com/datasets/emmarex/plantdisease)
-  (emmarex/plantdisease Kaggle mirror), the Pepper/Potato/Tomato subset —
-  real leaf photographs on lab (plain) backgrounds.
-- **Preparation:** `ml/disease_classification/prepare_plantvillage.py`
-  restructures the raw download into a train/val `ImageFolder` layout with a
-  per-class cap (train ≤250, val ≤50) to keep CPU training tractable. The
-  natural class imbalance below the cap is preserved, not equalized.
-- **Classes (15):** Pepper bell (bacterial spot, healthy); Potato (early
-  blight, late blight, healthy); Tomato (bacterial spot, early blight, late
-  blight, leaf mold, septoria leaf spot, spider mites, target spot, yellow
-  leaf curl virus, mosaic virus, healthy). See
-  `ml/disease_classification/classes.py`.
-- **Split:** disjoint per-class train/val (held out from the same pool by
-  `prepare_plantvillage.py`, seed=42).
+Merged from five public Kaggle datasets (full provenance in
+`data/sources.md`), restructured into one train/val `ImageFolder` by
+`prepare_plantvillage.py` + `prepare_extra_crops.py`, with a per-class cap
+(train ≤250, val ≤50) to keep CPU training tractable:
+
+- **PlantVillage** (emmarex/plantdisease): pepper, potato, tomato — 15 classes
+- **Corn/Maize**: common rust, gray leaf spot, northern leaf blight, healthy
+- **Rice/Paddy**: bacterial leaf blight, blast, brown spot, tungro
+- **Cotton**: bacterial blight, leaf curl virus, fusarium wilt, healthy
+- **Chilli**: leaf curl, healthy (only these two available in the dataset)
+
+Groundnut was evaluated but excluded — its dataset is object-detection
+format (no disease class folders), so groundnut remains advisory-only.
 
 ## Evaluation metrics
 
-Run on the **730-image real val split**, from
-`ml/disease_classification/eval.py`.
+Run on the **1,430-image real val split**, from `eval.py`.
 
-- **Overall accuracy: 96.44%** (730 samples)
-- **False negative rate (disease → predicted healthy): 0.33%** — only 2 of
-  ~630 true-disease samples were misclassified as a healthy class. Tracked
+- **Overall accuracy: 93.36%** (1,430 samples)
+- **False negative rate (disease → predicted healthy): 1.3%** — tracked
   separately from accuracy because for a farmer a missed disease is worse
   than a false alarm.
-- **Per-class accuracy:**
+- **Per-class accuracy (n=50 each unless noted):**
 
-  | Class | n | Accuracy |
-  |---|---|---|
-  | Pepper bell — bacterial spot | 50 | 100% |
-  | Pepper bell — healthy | 50 | 100% |
-  | Potato — early blight | 50 | 98% |
-  | Potato — late blight | 50 | 98% |
-  | Potato — healthy | 30 | 90% |
-  | Tomato — bacterial spot | 50 | 96% |
-  | Tomato — early blight | 50 | 98% |
-  | Tomato — late blight | 50 | 96% |
-  | Tomato — leaf mold | 50 | 98% |
-  | Tomato — septoria leaf spot | 50 | 92% |
-  | Tomato — spider mites | 50 | 88% |
-  | Tomato — target spot | 50 | 90% |
-  | Tomato — yellow leaf curl virus | 50 | 100% |
-  | Tomato — mosaic virus | 50 | 100% |
-  | Tomato — healthy | 50 | 100% |
+  | Class | Acc | | Class | Acc |
+  |---|---|---|---|---|
+  | Pepper — bacterial spot | 100% | | Tomato — mosaic virus | 100% |
+  | Pepper — healthy | 100% | | Tomato — healthy | 90% |
+  | Potato — early blight | 100% | | Chilli — leaf curl | 98% |
+  | Potato — late blight | 98% | | Chilli — healthy | 92% |
+  | Potato — healthy (n=30) | 100% | | Corn — common rust | 96% |
+  | Tomato — bacterial spot | 94% | | Corn — gray leaf spot | 84% |
+  | Tomato — early blight | 92% | | Corn — healthy | 100% |
+  | Tomato — late blight | 96% | | Corn — northern leaf blight | 86% |
+  | Tomato — leaf mold | 94% | | Cotton — bacterial blight | 84% |
+  | Tomato — septoria | 90% | | Cotton — fusarium wilt | 98% |
+  | Tomato — spider mites | 82% | | Cotton — healthy | 98% |
+  | Tomato — target spot | 54% | | Cotton — leaf curl virus | 96% |
+  | Tomato — yellow leaf curl | 100% | | Paddy — bacterial leaf blight | 100% |
+  | | | | Paddy — blast | 90% |
+  | | | | Paddy — brown spot | 100% |
+  | | | | Paddy — tungro | 98% |
 
-  Weakest classes are the visually subtle tomato conditions (spider mites
-  88%, target spot 90%, septoria 92%) — expected, as these are the hardest
-  to tell apart even for humans on a single leaf photo.
+  Weakest class is **Tomato target spot (54%)** — it is visually very close to
+  other tomato leaf spots (septoria, bacterial spot, early blight) and is the
+  main confusion sink. Corn gray leaf spot (84%), corn northern leaf blight
+  (86%), and cotton bacterial blight (84%) are the next weakest, all subtle
+  lesion-texture classes. These are honest, expected failure modes surfaced
+  rather than hidden behind the headline accuracy.
 
 ## Known limitations
 
-1. **Lab-background images only.** PlantVillage leaves are photographed on
-   plain backgrounds under even lighting. These numbers do **not** predict
-   accuracy on cluttered, variably-lit real field/phone photos. A separate
-   real-world set (e.g. PlantDoc) is still needed to honestly test
-   generalization — see `data/sources.md`.
-2. **3 crops only** (pepper, potato, tomato). Chilli is served via the
-   pepper model (same genus *Capsicum*). Corn, paddy, toor dal, groundnut,
-   and cotton have **no trained detector** — the app serves them as
-   knowledge-base advisories, not photo diagnoses.
-3. **Confidence threshold (0.60)** in `infer.py` is still a placeholder, not
-   calibrated against a real false-negative/false-alarm tradeoff with
-   agronomist input.
-4. Class distribution is capped/imbalanced (train ≤250/class); rare
-   real-world classes with few photos are not well exercised.
+1. **Curated/lab-style images.** The source datasets are mostly clean,
+   single-leaf photos. These numbers do **not** predict accuracy on
+   cluttered, variably-lit real field/phone photos. A real-world holdout set
+   is still needed for an honest field benchmark.
+2. **Uneven per-crop disease coverage.** Chilli has only leaf-curl vs.
+   healthy; rice has no "healthy" class in its dataset; cotton/corn cover a
+   handful of diseases each. The app labels each crop's covered diseases and
+   falls back to knowledge-base advisory for the rest.
+3. **Toor dal and groundnut have no detector** (advisory-only).
+4. **Confidence threshold (0.60)** in `infer.py` is still a placeholder, not
+   calibrated against a real false-negative/false-alarm tradeoff.
 
 ## Next steps
 
-1. Add a real-world (non-lab) validation set and report accuracy broken out
-   by lab vs. field images.
-2. Add labelled datasets for corn, rice, cotton, groundnut, pigeon pea to
-   extend photo-detection to those crops (the pipeline already generalizes
-   to any `ImageFolder`).
-3. Re-calibrate `CONFIDENCE_THRESHOLD` against real stakes with agronomist
-   input on acceptable per-disease miss rates.
+1. Add a real-world (non-lab) validation set; report lab vs. field accuracy.
+2. Source classification datasets for groundnut and toor dal; add more
+   chilli diseases (anthracnose, powdery mildew) and a rice healthy class.
+3. Re-calibrate `CONFIDENCE_THRESHOLD` with agronomist input on acceptable
+   per-disease miss rates.

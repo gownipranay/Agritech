@@ -39,13 +39,12 @@
       "id": "chilli",
       "name": "Chilli",
       "local_names": ["Mirchi", "మిర్చి"],
-      "vision_support": "vision_proxy",
-      "vision_proxy_of": "bell_pepper",
-      "vision_proxy_note": "Chilli and bell pepper are the same genus (Capsicum). Leaf-spot detection transfers reasonably, but confirm chilli-specific problems (thrips, leaf curl, dieback) with a local expert.",
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "chilli",
+      "vision_note": "The chilli detector is trained on leaf curl vs. healthy. For other chilli problems (anthracnose, powdery mildew, thrips), match symptoms using the guidance below and confirm with a local expert.",
       "common_diseases": [
-        "Pepper__bell___Bacterial_spot",
-        "chilli_anthracnose",
         "chilli_leaf_curl_virus",
+        "chilli_anthracnose",
         "chilli_powdery_mildew"
       ]
     },
@@ -53,15 +52,18 @@
       "id": "corn",
       "name": "Corn / Maize",
       "local_names": ["Makka", "మొక్కజొన్న"],
-      "vision_support": "advisory_only",
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "corn",
       "common_diseases": ["corn_common_rust", "corn_northern_leaf_blight", "corn_gray_leaf_spot"]
     },
     {
       "id": "paddy",
       "name": "Paddy / Rice",
       "local_names": ["Dhan", "వరి"],
-      "vision_support": "advisory_only",
-      "common_diseases": ["paddy_blast", "paddy_bacterial_leaf_blight", "paddy_brown_spot", "paddy_sheath_blight"]
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "paddy",
+      "vision_note": "Trained on rice blast, bacterial leaf blight, brown spot, and tungro. Other issues (e.g. sheath blight) aren't in the detector — match symptoms with a local expert.",
+      "common_diseases": ["paddy_blast", "paddy_bacterial_leaf_blight", "paddy_brown_spot", "paddy_tungro"]
     },
     {
       "id": "toor_dal",
@@ -81,8 +83,9 @@
       "id": "cotton",
       "name": "Cotton",
       "local_names": ["Kapas", "పత్తి"],
-      "vision_support": "advisory_only",
-      "common_diseases": ["cotton_bacterial_blight", "cotton_leaf_curl_virus", "cotton_alternaria_leaf_spot", "cotton_root_rot"]
+      "vision_support": "vision_supported",
+      "vision_classes_prefix": "cotton",
+      "common_diseases": ["cotton_bacterial_blight", "cotton_leaf_curl_virus", "cotton_fusarium_wilt"]
     }
   ]
 }

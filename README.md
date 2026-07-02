@@ -9,29 +9,27 @@ farmer by an LLM.
 
 | Phase | Status |
 |---|---|
-| 1. Disease/pest detection | **Trained on real PlantVillage data** (15 classes: pepper, potato, tomato) |
+| 1. Disease/pest detection | **Trained on real data — 29 classes** (pepper, potato, tomato, maize, rice, cotton, chilli) |
 | 2. Soil & weather integration | Not started |
 | 3. Yield prediction | Not started |
-| 4. Grounded treatment recommendation | **Implemented** — curated, ICAR-cited lookup (`/recommend-treatment`, `/crops`) |
+| 4. Grounded treatment + branded products | **Implemented** — ICAR-cited lookup + retrieval of products from Syngenta/Corteva/Adama/Rallis/BASF/Bayer/UPL (`/recommend-treatment`, `/crops`) |
 | 5. Farmer-facing UI | **Implemented** — React (Vite) app in `frontend/`, deployable to Netlify |
 
 ### Crop coverage vs. what the vision model can actually detect
 
-The real PlantVillage mirror only contains **pepper, potato, and tomato**, so
-those are the only crops the CV model can diagnose from a photo. The app
-still supports the other requested crops (chilli, corn/maize, paddy/rice,
-toor dal, groundnut, cotton) — honestly labelled by capability:
-
 | Crop | How it works in the app |
 |---|---|
-| Tomato, Potato, Bell pepper | Photo → trained CV model diagnosis |
-| Chilli | Photo → routed to the bell-pepper model (same genus *Capsicum*), with a visible caveat |
-| Corn, Paddy, Toor dal, Groundnut, Cotton | **Advisory only** — no trained detector yet, so the app shows the crop's common diseases + grounded management from the knowledge base instead of guessing from a photo |
+| Tomato, Potato, Bell pepper | Photo → trained CV model (PlantVillage) |
+| Maize/Corn | Photo → trained CV model (common rust, gray leaf spot, northern leaf blight, healthy) |
+| Paddy/Rice | Photo → trained CV model (blast, bacterial leaf blight, brown spot, tungro) |
+| Cotton | Photo → trained CV model (bacterial blight, leaf curl virus, fusarium wilt, healthy) |
+| Chilli | Photo → trained CV model (leaf curl vs. healthy); other chilli issues via advisory |
+| Toor dal, Groundnut | **Advisory only** — no trained detector, so the app shows common diseases + grounded management from the knowledge base instead of guessing from a photo |
 
-Adding real photo-detection for the advisory-only crops requires labelled
-datasets for them (e.g. the rice-leaf-disease, maize, cotton-disease Kaggle
-sets); the training pipeline already generalizes to any `ImageFolder`, so it's
-a data problem, not a code one. See [data/sources.md](data/sources.md).
+Groundnut's available Kaggle dataset is object-detection format (no disease
+class folders), so it stays advisory-only for now. Every detectable disease
+maps to a grounded, ICAR-cited treatment and matching branded products. See
+[data/sources.md](data/sources.md).
 
 ## Architecture
 
